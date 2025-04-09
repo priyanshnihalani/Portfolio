@@ -60,6 +60,7 @@ const Home = ({contactRef}) => {
                     className="z-20 w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 h-auto"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
+                    loading='lazy'
                     transition={{ duration: 1 }}
                 />
 
