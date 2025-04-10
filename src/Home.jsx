@@ -1,26 +1,34 @@
-import {forwardRef, useRef } from 'react';
+import { useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
+import { FaEye } from 'react-icons/fa';
+
 
 
 import './Home.css';
 import { motion } from 'framer-motion';
 
-const Home = ({contactRef}) => {
+const Home = ({ contactRef }) => {
     const form = useRef();
     // contactRef = ref; // 👈 Use forwarded ref
 
     const scrollToContact = () => {
-      contactRef.current?.scrollIntoView({ behavior: "smooth" });
+        contactRef.current?.scrollIntoView({ behavior: "smooth" });
     };
+
+    const [showPopup, setShowPopup] = useState(false);
+
 
     function sendEmail(e) {
         e.preventDefault();
 
+
         emailjs.sendForm('service_9j3hkqf', 'template_xehukca', form.current, 'B8P7nWodrCWRWJC27')
             .then((result) => {
                 console.log(result.text);
+                setShowPopup(true);
             }, (error) => {
                 console.log(error.text);
+                alert("There was an error sending your message. Please try again later.");
             });
         e.target.reset();
     }
@@ -65,7 +73,7 @@ const Home = ({contactRef}) => {
                 />
 
                 <motion.div className='w-full flex justify-center md:justify-start items-start' {...fadeInUp}>
-                    <img src="./images/contactarrow.png" alt="" className='w-1/3 md:w-1/5 rotate-120' />
+                    <img src="./images/contactarrow.png" alt="" className='w-1/4 md:w-1/5 md:rotate-120' />
                 </motion.div>
 
                 <motion.div className='w-full md:w-2/3 lg:w-2/2' {...fadeInUp}>
@@ -147,7 +155,7 @@ const Home = ({contactRef}) => {
                     </div>
 
                     <motion.div className='flex justify-center' {...fadeInUp}>
-                        <img src="./images/contactarrow.png" alt="" className='w-1/3 md:w-1/10' />
+                        <img src="./images/contactarrow.png" alt="" className='w-1/4 md:w-1/10' />
                     </motion.div>
 
                     <h1 className='font-medium'>Have Created Some Unique Projects</h1>
@@ -171,7 +179,7 @@ const Home = ({contactRef}) => {
                                 <div className="flex items-center space-x-2">
                                     <a href={_.visit} target="_blank" rel="noopener noreferrer" >
                                         <div className={_.design}>
-                                            Visit
+                                            <FaEye className='text-white' />
                                         </div>
                                     </a>
                                 </div>
@@ -192,7 +200,7 @@ const Home = ({contactRef}) => {
                         <div className="absolute bottom-1 left-0 w-full h-8 bg-blue-400 z-0"></div>
                     </div>
                     <motion.div className='flex justify-center' {...fadeInUp}>
-                        <img src="./images/contactarrow.png" alt="" className='w-1/3 md:w-1/10' />
+                        <img src="./images/contactarrow.png" alt="" className='w-1/4 md:w-1/10' />
                     </motion.div>
                     <h1 className='font-medium'>Have Done Internships during College</h1>
                 </motion.div>
@@ -244,7 +252,7 @@ const Home = ({contactRef}) => {
                         <div className="absolute bottom-1 left-0 w-full h-8 bg-blue-400 z-0"></div>
                     </div>
                     <motion.div className='flex justify-center' {...fadeInUp}>
-                        <img src="./images/contactarrow.png" alt="" className='w-1/3 md:w-1/10' />
+                        <img src="./images/contactarrow.png" alt="" className='w-1/4 md:w-1/10' />
                     </motion.div>
                     <h1 className='font-medium text-center'>Have Project Ideas? Just Say Me <b>Hi</b></h1>
 
@@ -285,6 +293,11 @@ const Home = ({contactRef}) => {
                     </motion.form>
                 </motion.div>
             </section>
+            <div className="p-4 border-l-2 border-b-2 popup bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-40  shadow-lg flex flex-col justify-center items-center z-50" style={{ display: showPopup ? 'block' : 'none' }}>
+                <h2 className='font-black'>Message Sent</h2>
+                <p className='font-medium'>This is a message sended confirmation.</p>
+                <button className='mt-4 underline' onClick={() => setShowPopup(false)}>Close</button>
+            </div>
         </>
     );
 }
